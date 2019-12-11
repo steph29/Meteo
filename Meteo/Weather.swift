@@ -13,15 +13,15 @@ import CoreLocation
 struct WeatherDescription: Codable {
     
     struct Coord: Codable {
-        let lon: CLLocationDegrees?
-        let lat: CLLocationDegrees?
+        var lon: Double?
+        var lat: Double?
     }
     
     struct Weathers: Codable {
-        let id: Int?
-        let main: String?
-        let description: String?
-        let icon: String?
+        var id: Int?
+        var main: String?
+        var description: String?
+        var icon: String?
     }
     
     struct Main: Codable {
@@ -49,14 +49,14 @@ struct WeatherDescription: Codable {
         let sunset: Int?
     }
     
-    let coord: Coord
+    var coord: Coord
     let weather: [Weathers]
     let base: String?
     let main: Main
     let visibilty: Int?
     let wind: Wind
     let clouds: Cloud
-    let dt: Int?
+    let dt: Double?
     let sys: Sys
     let timezone: Int?
     let id: Int?

@@ -7,16 +7,17 @@
 //
 
 import Foundation
+import CoreLocation
+
 
 class WeatherService {
-        private static let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=Lorient&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
-        
-    
+    private static let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438&q=Quimperle")!
+      
     static func getWeather(callback: @escaping (Bool, WeatherDescription?) -> Void){
         var request = URLRequest(url: weatherUrl)
         request.httpMethod = "POST"
         
-        let body = "method=getWeather&format=json&lang=en"
+        let body = "method=getWeather&format=json"
         request.httpBody = body.data(using: .utf8)
         
         let session = URLSession(configuration: .default)
@@ -41,6 +42,5 @@ class WeatherService {
             }
         }; task.resume()
     }
-    
- 
 }
+
