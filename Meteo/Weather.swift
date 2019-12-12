@@ -13,8 +13,8 @@ import CoreLocation
 struct WeatherDescription: Codable {
     
     struct Coord: Codable {
-        var lon: Double?
-        var lat: Double?
+        var lon: CLLocationDegrees?
+        var lat: CLLocationDegrees?
     }
     
     struct Weathers: Codable {

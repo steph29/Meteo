@@ -10,9 +10,11 @@ import Foundation
 import CoreLocation
 
 class WeatherForecast {
-    private static let forecastUrl = URL(string: "https://api.openweathermap.org/data/2.5/forecast?lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438&q=Lorient")!
+    static var location = Location()
+
+    private static let forecastUrl = URL(string:"https://api.openweathermap.org/data/2.5/forecast?lat=\(location.manager.location!.coordinate.latitude)&lon=\(location.manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
           
-        static func getForecast(callback: @escaping (Bool, Welcome?) -> Void){
+        static func getForecast(callback: @escaping (Bool, Welcome?) -> Void) {
             var request = URLRequest(url: forecastUrl)
             request.httpMethod = "POST"
             

@@ -24,26 +24,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var dateTreeLabel: UILabel!
     @IBOutlet weak var dateTwoLabel: UILabel!
     @IBOutlet weak var dateOneLabel: UILabel!
-    var manager = CLLocationManager()
+    var location = Location()
     @IBOutlet weak var weatherImageOne: UIImageView!
-    var myLocation = CLLocationCoordinate2D()
+    var forecast = WeatherForecast()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       localisation()
-        print(myLocation)
-    }
-    
-    func localisation() {
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
-        let location = locations[0]
-        myLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        print(location.manager.location!.coordinate.latitude)
+        print(location.manager.location!.coordinate.longitude)
     }
     
     @IBAction func tappedUpdateButton(_ sender: Any) {
@@ -56,6 +45,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
+    private func update(weather: WeatherDescription) {
+           setWeather(weather: weather, description: weather.weather[0].description!, temp: (Int(weather.main.temp!)))
+           localLabel.text = weather.name!
+           dateForecast(weather: weather)
+       }
+    
+    func setWeather(weather: WeatherDescription, description: String, temp: Int){
+          weatherDescriptionLabel.text = description
+          tempLabel.text = "\(temp)"
+         imageIcon(image: weatherImage, weather: weather)
+         imageIcon(image: weatherImageOne, weather: weather)
+      }
     
     func imageIcon(image: UIImageView, weather: WeatherDescription) {
         switch weather.weather[0].icon! {
@@ -119,16 +121,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
     }
     
-    func setWeather(weather: WeatherDescription, description: String, temp: Int){
-         weatherDescriptionLabel.text = description ?? "..."
-         tempLabel.text = "\(temp)"
-        imageIcon(image: weatherImage, weather: weather)
-        imageIcon(image: weatherImageOne, weather: weather)
-     }
+ 
     
     func dateForecast(weather: WeatherDescription) {
         let date = Date(timeIntervalSince1970: weather.dt!)
-        let component = DateComponents()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
         dateOneLabel.text = String(day + 1)
@@ -137,11 +133,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         dateTreeLabel.text = String(day + 4)
         dateFourLabel.text = String(day + 5)
     }
-    private func update(weather: WeatherDescription) {
-        setWeather(weather: weather, description: weather.weather[0].description!, temp: (Int(weather.main.temp!)))
-        localLabel.text = weather.name!
-        dateForecast(weather: weather)
-    }
+   
     
     private func alert() {
         let alertVC = UIAlertController(title: "Error", message: "Ooops, The weather download failed", preferredStyle: .alert)

@@ -10,6 +10,8 @@
 //   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 
 import Foundation
+import UIKit
+import CoreLocation
 
 // MARK: - Welcome
 class Welcome: Codable {
@@ -64,7 +66,7 @@ class List: Codable {
     let weather: [Weather]
     let clouds: Clouds
     let wind: Wind
-    let rain: Rain?
+    let rain: Rain
     let sys: Sys
     let dtTxt: String?
 
@@ -79,7 +81,7 @@ class List: Codable {
         self.weather = weather
         self.clouds = clouds
         self.wind = wind
-        self.rain = rain
+        self.rain = rain!
         self.sys = sys
         self.dtTxt = dtTxt
     }

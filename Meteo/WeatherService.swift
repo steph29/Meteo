@@ -11,7 +11,10 @@ import CoreLocation
 
 
 class WeatherService {
-    private static let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438&q=Quimperle")!
+    static var location = Location()
+    
+    // lat=35&lon=139&appid=b6907d289e10d714a6e88b30761fae22
+    static let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(location.manager.location!.coordinate.latitude)&lon=\(location.manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
       
     static func getWeather(callback: @escaping (Bool, WeatherDescription?) -> Void){
         var request = URLRequest(url: weatherUrl)
