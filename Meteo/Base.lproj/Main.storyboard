@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njk-EH-b1G">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temp" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njk-EH-b1G">
                                 <rect key="frame" x="131.5" y="160" width="151.5" height="76.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="njk-EH-b1G" secondAttribute="height" multiplier="151:76" id="vTJ-Na-LqI"/>
@@ -132,6 +132,23 @@
                                 <rect key="frame" x="87" y="654" width="240" height="128"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ymf-Ed-pT1">
+                                <rect key="frame" x="293" y="175" width="40" height="46"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HqQ-dF-dUy">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZRj-YZ-1rW">
+                                        <rect key="frame" x="0.0" y="25.5" width="40" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -139,6 +156,8 @@
                             <constraint firstItem="mTJ-su-Rvj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4wS-a7-qXm"/>
                             <constraint firstItem="mTJ-su-Rvj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="6jb-GI-fCJ"/>
                             <constraint firstItem="tVd-wI-KXP" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Ahc-cF-U0e"/>
+                            <constraint firstItem="ymf-Ed-pT1" firstAttribute="leading" secondItem="njk-EH-b1G" secondAttribute="trailing" constant="10" id="BXr-U1-TTW"/>
+                            <constraint firstItem="ymf-Ed-pT1" firstAttribute="top" secondItem="3Op-HI-Fbl" secondAttribute="bottom" constant="77.5" id="Chq-ZR-Fvy"/>
                             <constraint firstItem="6W9-oJ-IbJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FMM-dv-arw"/>
                             <constraint firstItem="mTJ-su-Rvj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="I0A-1t-mpD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mTJ-su-Rvj" secondAttribute="trailing" id="QXw-PR-h7V"/>
@@ -163,6 +182,8 @@
                         <outlet property="dateTwoLabel" destination="AOI-fL-6NJ" id="fIy-od-rnC"/>
                         <outlet property="localLabel" destination="mTJ-su-Rvj" id="BGj-mr-THT"/>
                         <outlet property="tempLabel" destination="njk-EH-b1G" id="UjT-fk-vEA"/>
+                        <outlet property="tempMaxLabel" destination="ZRj-YZ-1rW" id="hFU-VI-kUL"/>
+                        <outlet property="tempMinLabel" destination="HqQ-dF-dUy" id="OT0-uc-LHq"/>
                         <outlet property="updateButton" destination="3Op-HI-Fbl" id="iLt-RW-p0J"/>
                         <outlet property="weatherDescriptionLabel" destination="6W9-oJ-IbJ" id="aCT-IK-YgY"/>
                         <outlet property="weatherImage" destination="tVd-wI-KXP" id="nJD-Sb-Xrj"/>

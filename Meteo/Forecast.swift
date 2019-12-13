@@ -1,22 +1,14 @@
-//
-//  Forecast.swift
-//  Meteo
-//
-//  Created by stephane verardo on 10/12/2019.
-//  Copyright © 2019 stephane verardo. All rights reserved.
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
 //   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 
 import Foundation
-import UIKit
-import CoreLocation
 
-// MARK: - Welcome
-class Welcome: Codable {
-    let cod: String?
-    let message, cnt: Int?
+// MARK: - Forecast
+class Forecast: Codable {
+    let cod: String
+    let message, cnt: Int
     let list: [List]
     let city: City
 
@@ -31,11 +23,11 @@ class Welcome: Codable {
 
 // MARK: - City
 class City: Codable {
-    let id: Int?
-    let name: String?
+    let id: Int
+    let name: String
     let coord: Coord
-    let country: String?
-    let population, timezone, sunrise, sunset: Int?
+    let country: String
+    let population, timezone, sunrise, sunset: Int
 
     init(id: Int, name: String, coord: Coord, country: String, population: Int, timezone: Int, sunrise: Int, sunset: Int) {
         self.id = id
@@ -51,7 +43,7 @@ class City: Codable {
 
 // MARK: - Coord
 class Coord: Codable {
-    let lat, lon: Double?
+    let lat, lon: Double
 
     init(lat: Double, lon: Double) {
         self.lat = lat
@@ -61,35 +53,37 @@ class Coord: Codable {
 
 // MARK: - List
 class List: Codable {
-    let dt: Int?
+    let dt: Int
     let main: MainClass
     let weather: [Weather]
     let clouds: Clouds
     let wind: Wind
-    let rain: Rain
     let sys: Sys
-    let dtTxt: String?
+    let dtTxt: String
+    let rain, snow: Rain?
 
     enum CodingKeys: String, CodingKey {
-        case dt, main, weather, clouds, wind, rain, sys
+        case dt, main, weather, clouds, wind, sys
         case dtTxt = "dt_txt"
+        case rain, snow
     }
 
-    init(dt: Int, main: MainClass, weather: [Weather], clouds: Clouds, wind: Wind, rain: Rain?, sys: Sys, dtTxt: String) {
+    init(dt: Int, main: MainClass, weather: [Weather], clouds: Clouds, wind: Wind, sys: Sys, dtTxt: String, rain: Rain?, snow: Rain?) {
         self.dt = dt
         self.main = main
         self.weather = weather
         self.clouds = clouds
         self.wind = wind
-        self.rain = rain!
         self.sys = sys
         self.dtTxt = dtTxt
+        self.rain = rain
+        self.snow = snow
     }
 }
 
 // MARK: - Clouds
 class Clouds: Codable {
-    let all: Int?
+    let all: Int
 
     init(all: Int) {
         self.all = all
@@ -98,9 +92,9 @@ class Clouds: Codable {
 
 // MARK: - MainClass
 class MainClass: Codable {
-    let temp, tempMin, tempMax: Double?
-    let pressure, seaLevel, grndLevel, humidity: Int?
-    let tempKf: Double?
+    let temp, tempMin, tempMax: Double
+    let pressure, seaLevel, grndLevel, humidity: Int
+    let tempKf: Double
 
     enum CodingKeys: String, CodingKey {
         case temp
@@ -127,7 +121,7 @@ class MainClass: Codable {
 
 // MARK: - Rain
 class Rain: Codable {
-    let the3H: Double?
+    let the3H: Double
 
     enum CodingKeys: String, CodingKey {
         case the3H = "3h"
@@ -154,9 +148,9 @@ enum Pod: String, Codable {
 
 // MARK: - Weather
 class Weather: Codable {
-    let id: Int?
+    let id: Int
     let main: MainEnum
-    let weatherDescription, icon: String?
+    let weatherDescription, icon: String
 
     enum CodingKeys: String, CodingKey {
         case id, main
@@ -176,12 +170,13 @@ enum MainEnum: String, Codable {
     case clear = "Clear"
     case clouds = "Clouds"
     case rain = "Rain"
+    case snow = "Snow"
 }
 
 // MARK: - Wind
 class Wind: Codable {
-    let speed: Double?
-    let deg: Int?
+    let speed: Double
+    let deg: Int
 
     init(speed: Double, deg: Int) {
         self.speed = speed
