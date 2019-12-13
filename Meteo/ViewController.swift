@@ -10,6 +10,10 @@ import UIKit
 import MapKit
 import CoreLocation
 
+enum backgroundColor {
+    case day, night
+}
+
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var localLabel: UILabel!
@@ -29,14 +33,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var forecast = WeatherForecast()
     @IBOutlet weak var tempMinLabel: UILabel!
     @IBOutlet weak var tempMaxLabel: UILabel!
+    @IBOutlet weak var weatherImageTwo: UIImageView!
+    @IBOutlet weak var weatherImageTree: UIImageView!
+    @IBOutlet weak var weatherImageFour: UIImageView!
+    @IBOutlet weak var weatherImageFive: UIImageView!
+    @IBOutlet weak var thinkLabel: UITextField!
+    var str = StringFile()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    @IBAction func tappedUpdateButton(_ sender: Any) {
-         WeatherService.getWeather{ (sucess, weather) in
+        WeatherService.getWeather{ (sucess, weather) in
             if sucess, let weather = weather {
                 self.update(weather: weather)
             }
@@ -53,8 +60,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+  
+    @IBAction func tappedUpdateButton(_ sender: Any) {
+         WeatherService.getWeather{ (sucess, weather) in
+             if sucess, let weather = weather {
+                 self.update(weather: weather)
+             }
+             else {
+                 self.alert()
+             }
+         }
+         WeatherForecast.getForecast { (success, forecast) in
+             if success, let forecast = forecast {
+                 self.updateForecast(forecast: forecast)
+             }
+             else {
+                 self.alert()
+             }
+         }
+    }
+    
     private func updateForecast(forecast: Forecast){
-        print(forecast.list[7].weather[0].icon)
         setForecast(forecast: forecast)
     }
     private func update(weather: WeatherDescription) {
@@ -75,98 +101,112 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func setForecast(forecast: Forecast){
         imageIconForecast(image: weatherImageOne, forecast: forecast)
+        imageIconForecast(image: weatherImageTwo, forecast: forecast)
+        imageIconForecast(image: weatherImageTree, forecast: forecast)
+        imageIconForecast(image: weatherImageFour, forecast: forecast)
+        imageIconForecast(image: weatherImageFive, forecast: forecast)
     }
     
-    func imageIconForecast(image: UIImageView, forecast: Forecast) {
-        switch forecast.list[10].weather[0].icon {
-            
-                case "01d":
+    func imageIconForecasts(image: UIImageView, icon: String){
+        switch icon {
+            case "01d":
                 image.image = UIImage(systemName: "sun.max")
                 case "02d":
                 image.image = UIImage(systemName: "cloud.sun")
-                
                 case "03d":
                 image.image = UIImage(systemName: "cloud.sun")
-                
                 case "04d":
                 image.image = UIImage(systemName: "cloud")
-                
                 case "09d":
                 image.image = UIImage(systemName: "cloud.heavyrain")
-                
                 case "10d":
                 image.image = UIImage(systemName: "cloud.rain")
-                
                 case "11d":
                 image.image = UIImage(systemName: "cloud.bolt")
-                
                 case "13d":
                 image.image = UIImage(systemName: "snow")
-                
                 case "50d":
                 image.image = UIImage(systemName: "cloud.fog")
-                
                 case "01n":
                 image.image = UIImage(systemName: "moon.stars")
-                
                 case "02n":
                 image.image = UIImage(systemName: "cloud.moon")
-                
                 case "03n":
                 image.image = UIImage(systemName: "cloud.moon")
-                
                 case "04n":
                 image.image = UIImage(systemName: "cloud")
-                
                 case "09n":
                 image.image = UIImage(systemName: "cloud.heavyrain")
-                
                 case "10n":
                 image.image = UIImage(systemName: "cloud.rain")
-                
                 case "11n":
                 image.image = UIImage(systemName: "cloud.bolt")
-                
                 case "13n":
                 image.image = UIImage(systemName: "snow")
-                
                 case "50n":
                 image.image = UIImage(systemName: "cloud.fog")
                 
             default:
                 image.image = UIImage(systemName: "zzz")
-                
             }
+        
+        
+        }
+
+    func imageIconForecast(image: UIImageView, forecast: Forecast) {
+       imageIconForecasts(image: weatherImageOne, icon: forecast.list[8].weather[0].icon)
+        imageIconForecasts(image: weatherImageTwo, icon: forecast.list[16].weather[0].icon)
+        imageIconForecasts(image: weatherImageTree, icon: forecast.list[24].weather[0].icon)
+        imageIconForecasts(image: weatherImageFour, icon: forecast.list[32].weather[0].icon)
+        imageIconForecasts(image: weatherImageFive, icon: forecast.list[39].weather[0].icon)
     }
     
     func imageIcon(image: UIImageView, weather: WeatherDescription) {
         switch weather.weather[0].icon! {
                 case "01d":
                 image.image = UIImage(systemName: "sun.max")
+                thinkLabel.text = str.sun
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
+            thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "02d":
                 image.image = UIImage(systemName: "cloud.sun")
+                thinkLabel.text = str.cloud
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "03d":
                 image.image = UIImage(systemName: "cloud.sun")
+                thinkLabel.text = str.cloud
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "04d":
                 image.image = UIImage(systemName: "cloud")
+                thinkLabel.text = str.cloud
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "09d":
                 image.image = UIImage(systemName: "cloud.heavyrain")
+                thinkLabel.text = str.heavyRain
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "10d":
                 image.image = UIImage(systemName: "cloud.rain")
+                thinkLabel.text = str.rain
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "11d":
                 image.image = UIImage(systemName: "cloud.bolt")
+                thinkLabel.text = str.rain
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "13d":
                 image.image = UIImage(systemName: "snow")
+                thinkLabel.text = str.snow
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "50d":
                 image.image = UIImage(systemName: "cloud.fog")
+                thinkLabel.text = str.fog
+                thinkLabel.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 background.backgroundColor = UIColor(red: 0.97, green: 0.70, blue: 0.35, alpha: 1.0)
                 case "01n":
                 image.image = UIImage(systemName: "moon.stars")
