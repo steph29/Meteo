@@ -54,7 +54,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     private func updateForecast(forecast: Forecast){
-        print(forecast)
+        print(forecast.list[7].weather[0].icon)
+        setForecast(forecast: forecast)
     }
     private func update(weather: WeatherDescription) {
         location.localisation()
@@ -70,9 +71,73 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         tempMaxLabel.text = "Max: \(tempMax) C"
         tempMinLabel.text = "Min: \(tempMin) C"
          imageIcon(image: weatherImage, weather: weather)
-         imageIcon(image: weatherImageOne, weather: weather)
-        
       }
+    
+    func setForecast(forecast: Forecast){
+        imageIconForecast(image: weatherImageOne, forecast: forecast)
+    }
+    
+    func imageIconForecast(image: UIImageView, forecast: Forecast) {
+        switch forecast.list[10].weather[0].icon {
+            
+                case "01d":
+                image.image = UIImage(systemName: "sun.max")
+                case "02d":
+                image.image = UIImage(systemName: "cloud.sun")
+                
+                case "03d":
+                image.image = UIImage(systemName: "cloud.sun")
+                
+                case "04d":
+                image.image = UIImage(systemName: "cloud")
+                
+                case "09d":
+                image.image = UIImage(systemName: "cloud.heavyrain")
+                
+                case "10d":
+                image.image = UIImage(systemName: "cloud.rain")
+                
+                case "11d":
+                image.image = UIImage(systemName: "cloud.bolt")
+                
+                case "13d":
+                image.image = UIImage(systemName: "snow")
+                
+                case "50d":
+                image.image = UIImage(systemName: "cloud.fog")
+                
+                case "01n":
+                image.image = UIImage(systemName: "moon.stars")
+                
+                case "02n":
+                image.image = UIImage(systemName: "cloud.moon")
+                
+                case "03n":
+                image.image = UIImage(systemName: "cloud.moon")
+                
+                case "04n":
+                image.image = UIImage(systemName: "cloud")
+                
+                case "09n":
+                image.image = UIImage(systemName: "cloud.heavyrain")
+                
+                case "10n":
+                image.image = UIImage(systemName: "cloud.rain")
+                
+                case "11n":
+                image.image = UIImage(systemName: "cloud.bolt")
+                
+                case "13n":
+                image.image = UIImage(systemName: "snow")
+                
+                case "50n":
+                image.image = UIImage(systemName: "cloud.fog")
+                
+            default:
+                image.image = UIImage(systemName: "zzz")
+                
+            }
+    }
     
     func imageIcon(image: UIImageView, weather: WeatherDescription) {
         switch weather.weather[0].icon! {
