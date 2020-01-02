@@ -39,10 +39,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var weatherImageFive: UIImageView!
     @IBOutlet weak var thinkLabel: UITextField!
     var str = StringFile()
-    
+    @IBOutlet weak var previTroisImageView: UIImageView!
+    @IBOutlet weak var previSixImageView: UIImageView!
+    @IBOutlet weak var previNeufImageView: UIImageView!
+    @IBOutlet weak var treeHoursLabel: UILabel!
+    @IBOutlet weak var sixHoursLabel: UILabel!
+    @IBOutlet weak var nineHoursLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        location.localisation()
+        updateWeather()
+    }
+    
+    func updateWeather(){
         WeatherService.getWeather{ (sucess, weather) in
             if sucess, let weather = weather {
                 self.update(weather: weather)
@@ -62,33 +72,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
   
     @IBAction func tappedUpdateButton(_ sender: Any) {
-         WeatherService.getWeather{ (sucess, weather) in
-             if sucess, let weather = weather {
-                 self.update(weather: weather)
-             }
-             else {
-                 self.alert()
-             }
-         }
-         WeatherForecast.getForecast { (success, forecast) in
-             if success, let forecast = forecast {
-                 self.updateForecast(forecast: forecast)
-             }
-             else {
-                 self.alert()
-             }
-         }
+        updateWeather()
     }
     
     private func updateForecast(forecast: Forecast){
         setForecast(forecast: forecast)
     }
     private func update(weather: WeatherDescription) {
-        location.localisation()
         setWeather(weather: weather, description: weather.weather[0].description!, temp: (Int(weather.main.temp!)), tempMax: (Int(weather.main.temp_max!)), tempMin: (Int(weather.main.temp_min!)))
            localLabel.text = weather.name!
            dateForecast(weather: weather)
-        print(forecast)
        }
     
     func setWeather(weather: WeatherDescription, description: String, temp: Int, tempMax: Int, tempMin: Int){
@@ -97,6 +90,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         tempMaxLabel.text = "Max: \(tempMax) C"
         tempMinLabel.text = "Min: \(tempMin) C"
          imageIcon(image: weatherImage, weather: weather)
+       
+        
       }
     
     func setForecast(forecast: Forecast){
@@ -105,7 +100,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         imageIconForecast(image: weatherImageTree, forecast: forecast)
         imageIconForecast(image: weatherImageFour, forecast: forecast)
         imageIconForecast(image: weatherImageFive, forecast: forecast)
+        
+        
     }
+
     
     func imageIconForecasts(image: UIImageView, icon: String){
         switch icon {
@@ -154,12 +152,92 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
 
     func imageIconForecast(image: UIImageView, forecast: Forecast) {
-       imageIconForecasts(image: weatherImageOne, icon: forecast.list[8].weather[0].icon)
-        imageIconForecasts(image: weatherImageTwo, icon: forecast.list[16].weather[0].icon)
-        imageIconForecasts(image: weatherImageTree, icon: forecast.list[24].weather[0].icon)
-        imageIconForecasts(image: weatherImageFour, icon: forecast.list[32].weather[0].icon)
-        imageIconForecasts(image: weatherImageFive, icon: forecast.list[39].weather[0].icon)
+        weatherAtFirstday(forecast: forecast)
+        weatherAtSecondDay(forecast: forecast)
+        weatherAtThirdDay(forecast: forecast)
+        weatherAtFourthDay(forecast: forecast)
+        weatherAtFifthDay(forecast: forecast)
+        
+        imageIconForecasts(image: previTroisImageView, icon: forecast.list[1].weather[0].icon)
+        imageIconForecasts(image: previSixImageView, icon: forecast.list[2].weather[0].icon)
+        imageIconForecasts(image: previNeufImageView, icon: forecast.list[3].weather[0].icon)
+        
     }
+    
+    func weatherAtFirstday(forecast: Forecast){
+        for i in 0...8 {
+            if ((dtConcatenated(dt: forecast.list[i].dtTxt)).elementsEqual("12:00:00") == true)
+            {
+               imageIconForecasts(image: weatherImageOne, icon: forecast.list[i].weather[0].icon)
+            }
+        }
+    }
+    func weatherAtSecondDay(forecast: Forecast){
+        for i in 9...16 {
+            if ((dtConcatenated(dt: forecast.list[i].dtTxt)).elementsEqual("12:00:00") == true)
+            {
+               imageIconForecasts(image: weatherImageTwo, icon: forecast.list[i].weather[0].icon)
+            }
+        }
+    }
+    func weatherAtThirdDay(forecast: Forecast){
+        for i in 17...24 {
+            if ((dtConcatenated(dt: forecast.list[i].dtTxt)).elementsEqual("12:00:00") == true)
+            {
+               imageIconForecasts(image: weatherImageTree, icon: forecast.list[i].weather[0].icon)
+            }
+        }
+    }
+    func weatherAtFourthDay(forecast: Forecast){
+        for i in 25...32 {
+            if ((dtConcatenated(dt: forecast.list[i].dtTxt)).elementsEqual("12:00:00") == true)
+            {
+               imageIconForecasts(image: weatherImageFour, icon: forecast.list[i].weather[0].icon)
+            }
+        }
+    }
+    func weatherAtFifthDay(forecast: Forecast){
+        for i in 33...39 {
+            if ((dtConcatenated(dt: forecast.list[i].dtTxt)).elementsEqual("12:00:00") == true)
+            {
+               imageIconForecasts(image: weatherImageFive, icon: forecast.list[i].weather[0].icon)
+            }
+        }
+    }
+    
+    func dtConcatenated(dt: String) -> String{
+        let index = dt.dropFirst(11)
+        return(String(index))
+    }
+    
+    func dateForecast(weather: WeatherDescription) {
+        let date = Date(timeIntervalSince1970: weather.dt!)
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        let hourFormatter = DateFormatter()
+        let dayOne = calendar.date(byAdding: .weekday, value: 1, to: date)
+        let dayTwo = calendar.date(byAdding: .weekday, value: 2, to: date)
+        let dayTree = calendar.date(byAdding: .weekday, value: 3, to: date)
+        let dayFour = calendar.date(byAdding: .weekday, value: 4, to: date)
+        let dayFive = calendar.date(byAdding: .weekday, value: 5, to: date)
+        
+        let hoursTree = calendar.date(byAdding: .hour, value: 3, to: date)
+        let hoursSix = calendar.date(byAdding: .hour, value: 6, to: date)
+        let hoursNine = calendar.date(byAdding: .hour, value: 9, to: date)
+       
+        dateFormatter.locale = Locale(identifier: "FR-fr")
+        dateFormatter.dateFormat = "EEEE"
+        hourFormatter.dateFormat = "HH:00"
+        dateOneLabel.text = dateFormatter.string(from: dayOne!)
+        dateTwoLabel.text = dateFormatter.string(from: dayTwo!)
+        dateLabel.text = dateFormatter.string(from: dayTree!)
+        dateTreeLabel.text = dateFormatter.string(from: dayFour!)
+        dateFourLabel.text = dateFormatter.string(from: dayFive!)
+        treeHoursLabel.text = hourFormatter.string(from: hoursTree!)
+        sixHoursLabel.text = hourFormatter.string(from: hoursSix!)
+        nineHoursLabel.text = hourFormatter.string(from: hoursNine!)
+    }
+
     
     func imageIcon(image: UIImageView, weather: WeatherDescription) {
         switch weather.weather[0].icon! {
@@ -241,19 +319,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
     }
     
- 
-    
-    func dateForecast(weather: WeatherDescription) {
-        let date = Date(timeIntervalSince1970: weather.dt!)
-        let calendar = Calendar.current
-        let day = calendar.component(.day, from: date)
-        dateOneLabel.text = String(day + 1)
-        dateTwoLabel.text = String(day + 2)
-        dateLabel.text = String(day + 3)
-        dateTreeLabel.text = String(day + 4)
-        dateFourLabel.text = String(day + 5)
-    }
-
     private func alert() {
         let alertVC = UIAlertController(title: "Error", message: "Ooops, The weather download failed", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

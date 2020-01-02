@@ -8,8 +8,11 @@
 
 import UIKit
 import CoreLocation
+import MapKit
+
 
 class Location: NSObject, CLLocationManagerDelegate {
+    
     var manager = CLLocationManager()
     
     func localisation() {
