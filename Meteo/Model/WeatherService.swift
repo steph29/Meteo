@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 
 class WeatherService {
-    static var location = Location()
+    static var location = ViewController()
     static var loc = CLLocation(latitude:location.manager.location!.coordinate.latitude , longitude: location.manager.location!.coordinate.longitude)
     
     // lat=35&lon=139&appid=b6907d289e10d714a6e88b30761fae22

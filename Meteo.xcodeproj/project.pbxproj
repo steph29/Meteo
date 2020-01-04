@@ -36,6 +36,7 @@
 		B10AD8282385D75800470543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10AD82E2385D8A900470543 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		B10AD8302385E23D00470543 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		B14B63B223BFDF720072B3CC /* Meteo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Meteo.entitlements; sourceTree = "<group>"; };
 		B156E9D5238E965600387A45 /* Weather.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Weather.json; sourceTree = "<group>"; };
 		B16AD3872396686A00A5976A /* icon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = icon.json; sourceTree = "<group>"; };
 		B16AD38A23967FDD00A5976A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -78,6 +79,7 @@
 		B10AD8192385D75400470543 /* Meteo */ = {
 			isa = PBXGroup;
 			children = (
+				B14B63B223BFDF720072B3CC /* Meteo.entitlements */,
 				B176074023A3AF0E008289F0 /* Supporting Files */,
 				B176073F23A3AED7008289F0 /* Controller */,
 				B176073E23A3AED1008289F0 /* Model */,
@@ -364,6 +366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Meteo/Meteo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L325WJD5P6;
 				INFOPLIST_FILE = Meteo/Info.plist;
@@ -382,6 +385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Meteo/Meteo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L325WJD5P6;
 				INFOPLIST_FILE = Meteo/Info.plist;

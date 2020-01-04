@@ -45,10 +45,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var treeHoursLabel: UILabel!
     @IBOutlet weak var sixHoursLabel: UILabel!
     @IBOutlet weak var nineHoursLabel: UILabel!
+    var manager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        location.localisation()
+        func localisation() {
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            manager.requestWhenInUseAuthorization()
+            manager.startUpdatingLocation()
+        }
+        
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+            let location = locations[0]
+            let myLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+            print(myLocation)
+        }
         updateWeather()
     }
     
@@ -79,6 +91,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         setForecast(forecast: forecast)
     }
     private func update(weather: WeatherDescription) {
+        location.localisation()
         setWeather(weather: weather, description: weather.weather[0].description!, temp: (Int(weather.main.temp!)), tempMax: (Int(weather.main.temp_max!)), tempMin: (Int(weather.main.temp_min!)))
            localLabel.text = weather.name!
            dateForecast(weather: weather)
@@ -201,6 +214,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             if ((dtConcatenated(dt: forecast.list[i].dtTxt)).elementsEqual("12:00:00") == true)
             {
                imageIconForecasts(image: weatherImageFive, icon: forecast.list[i].weather[0].icon)
+            }
+            else {
+                imageIconForecasts(image: weatherImageFive, icon: forecast.list[i-1].weather[0].icon)
             }
         }
     }
