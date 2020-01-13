@@ -10,13 +10,12 @@ import Foundation
 import CoreLocation
 import MapKit
 
-class WeatherService {
-    static var location = ViewController()
-    static var loc = CLLocation(latitude:location.manager.location!.coordinate.latitude , longitude: location.manager.location!.coordinate.longitude)
-    
+class WeatherService: NSObject, CLLocationManagerDelegate, MKMapViewDelegate {
+    static var manager = CLLocationManager()
+   
     // lat=35&lon=139&appid=b6907d289e10d714a6e88b30761fae22
     
-    static let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(loc.coordinate.latitude)&lon=\(loc.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
+    static let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(manager.location!.coordinate.latitude)&lon=\(manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
       
     static func getWeather(callback: @escaping (Bool, WeatherDescription?) -> Void){
         var request = URLRequest(url: weatherUrl)

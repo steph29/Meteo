@@ -13,18 +13,52 @@ import MapKit
 
 class Location: NSObject, CLLocationManagerDelegate {
     
-    var manager = CLLocationManager()
+        var manager = CLLocationManager()
+        let regionInMeters: Double = 750
+        var previousLocation: CLLocation?
     
-    func localisation() {
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
+        func checkLocationServices() {
+               if CLLocationManager.locationServicesEnabled() {
+                setupLocationManager()
+                checkLocationAuthorization()
+               } else {
+                   
+               }
+           }
+        
+        func checkLocationAuthorization() {
+            switch CLLocationManager.authorizationStatus() {
+            case .authorizedWhenInUse:
+                manager.startUpdatingLocation()
+            case .denied:
+                break
+            case .notDetermined:
+                manager.requestWhenInUseAuthorization()
+            case .restricted:
+                // Alert leur expliquant pourquoi c'est bloqué: controle parental ...
+                break
+            case .authorizedAlways:
+                break
+            }
+        }
+        func setupLocationManager() {
+            manager.delegate  = self
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+        }
+        
     }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
-        let location = locations[0]
-        let myLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-        print(myLocation)
+
+extension Location: MKMapViewDelegate  {
+        
+       func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+            guard let location = locations.last else { return}
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+      }
+        
+        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+            checkLocationAuthorization()
+            
+        }
     }
-}
+

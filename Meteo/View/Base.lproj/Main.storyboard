@@ -214,6 +214,23 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-cY-JNr">
+                                <rect key="frame" x="42" y="114" width="76.5" height="49"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25l-FV-pMC">
+                                        <rect key="frame" x="0.0" y="0.0" width="76.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="poF-lm-Sg6">
+                                        <rect key="frame" x="0.0" y="28.5" width="76.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -226,6 +243,7 @@
                             <constraint firstItem="6W9-oJ-IbJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FMM-dv-arw"/>
                             <constraint firstItem="mTJ-su-Rvj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="I0A-1t-mpD"/>
                             <constraint firstItem="EOW-N4-J6O" firstAttribute="leading" secondItem="tVd-wI-KXP" secondAttribute="trailing" constant="3" id="MBp-ZV-DMg"/>
+                            <constraint firstItem="7jp-cY-JNr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="70" id="PVX-3g-YOZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mTJ-su-Rvj" secondAttribute="trailing" id="QXw-PR-h7V"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3Op-HI-Fbl" secondAttribute="trailing" constant="20" id="TOo-St-QS1"/>
                             <constraint firstItem="3Op-HI-Fbl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="31" id="WMw-rC-gjT"/>
@@ -235,6 +253,7 @@
                             <constraint firstItem="6W9-oJ-IbJ" firstAttribute="top" secondItem="njk-EH-b1G" secondAttribute="bottom" constant="8" id="eOd-WQ-Fge"/>
                             <constraint firstItem="njk-EH-b1G" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hM1-Ri-05B"/>
                             <constraint firstItem="njk-EH-b1G" firstAttribute="top" secondItem="mTJ-su-Rvj" secondAttribute="bottom" constant="41.5" id="iXh-8J-cqN"/>
+                            <constraint firstItem="7jp-cY-JNr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="42" id="m4J-Eq-Ua9"/>
                             <constraint firstItem="tVd-wI-KXP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nW0-IP-fkC"/>
                             <constraint firstItem="ALt-le-itH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oDo-Z5-bQA"/>
                         </constraints>
@@ -249,6 +268,8 @@
                         <outlet property="dateTwoLabel" destination="uBq-xU-0QE" id="55c-rO-3ZV"/>
                         <outlet property="localLabel" destination="mTJ-su-Rvj" id="BGj-mr-THT"/>
                         <outlet property="nineHoursLabel" destination="omb-vA-Gk9" id="ORA-mV-6Zw"/>
+                        <outlet property="positLatLabel" destination="25l-FV-pMC" id="VHl-In-9EQ"/>
+                        <outlet property="positLongLabel" destination="poF-lm-Sg6" id="Zpn-OE-uPB"/>
                         <outlet property="previNeufImageView" destination="nef-2s-Zbu" id="OaG-3m-tRc"/>
                         <outlet property="previSixImageView" destination="KpQ-Uc-Ujv" id="7cY-a3-htW"/>
                         <outlet property="previTroisImageView" destination="1xh-hq-huV" id="Df6-AC-eEx"/>
@@ -274,6 +295,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="goforward" catalog="system" width="60" height="64"/>
+        <image name="goforward" catalog="system" width="32" height="32"/>
     </resources>
 </document>

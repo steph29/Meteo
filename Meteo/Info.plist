@@ -28,7 +28,9 @@
 		<dict/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Please accept location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Please accept location</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
