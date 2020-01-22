@@ -16,7 +16,9 @@ enum backgroundColor {
 }
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
-
+    
+    
+    // MARK - Outlet
     @IBOutlet weak var localLabel: UILabel!
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var tempLabel: UILabel!
@@ -29,9 +31,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var dateTreeLabel: UILabel!
     @IBOutlet weak var dateTwoLabel: UILabel!
     @IBOutlet weak var dateOneLabel: UILabel!
-    var location = Location()
     @IBOutlet weak var weatherImageOne: UIImageView!
-    var forecast = WeatherForecast()
     @IBOutlet weak var tempMinLabel: UILabel!
     @IBOutlet weak var tempMaxLabel: UILabel!
     @IBOutlet weak var weatherImageTwo: UIImageView!
@@ -39,26 +39,51 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var weatherImageFour: UIImageView!
     @IBOutlet weak var weatherImageFive: UIImageView!
     @IBOutlet weak var thinkLabel: UITextField!
-    var str = StringFile()
     @IBOutlet weak var previTroisImageView: UIImageView!
     @IBOutlet weak var previSixImageView: UIImageView!
     @IBOutlet weak var previNeufImageView: UIImageView!
     @IBOutlet weak var treeHoursLabel: UILabel!
     @IBOutlet weak var sixHoursLabel: UILabel!
     @IBOutlet weak var nineHoursLabel: UILabel!
-    var manager = CLLocationManager()
     @IBOutlet weak var positLatLabel: UILabel!
     @IBOutlet weak var positLongLabel: UILabel!
+  
+    
+    // MARK - Variables
+    var str = StringFile()
     let regionInMeters: Double = 1000
     var previousLocation: CLLocation?
+    var loc = Location()
+    var forecast = WeatherForecast()
     
+    
+    // MARK - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Ici vous êtes à \(manager.location!.coordinate.latitude) degrée  de latitude et \(manager.location!.coordinate.longitude) degrée de longitude")
-        updateLocation()
+        loc.setupLocationManager()
         updateWeather()
-        
-        
+    }
+   
+    
+    // MARK - Functions Location
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+           guard let location = locations.last else { return}
+           let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            print("\(loc.manager.location!.coordinate.latitude), \(loc.manager.location!.coordinate.longitude)")
+            positLatLabel.text = String(loc.manager.location!.coordinate.latitude)
+            positLongLabel.text = String(loc.manager.location!.coordinate.longitude)
+            updateWeather()
+    }
+     
+    func urlForecast() -> URL{
+        let forecastUrl = URL(string:"https://api.openweathermap.org/data/2.5/forecast?lat=\("48")&lon=\(loc.manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
+        return forecastUrl
+    }
+  
+    
+    func urlWeather() -> URL{
+        let weatherUrl = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(loc.manager.location!.coordinate.latitude)&lon=\(loc.manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
+        return weatherUrl
     }
     
     func checkLocationServices() {
@@ -70,23 +95,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
     }
     
-    func updateLocation() {
-        positLatLabel.text = String(manager.location!.coordinate.latitude)
-        positLongLabel.text = String(manager.location!.coordinate.longitude)
-    }
-    
     func setupLocationManager() {
-            manager.delegate  = self
-            manager.desiredAccuracy = kCLLocationAccuracyBest
+        loc.manager.delegate  = self
+        loc.manager.desiredAccuracy = kCLLocationAccuracyBest
        }
     
     func startTrackingUserLocation() {
-        manager.startUpdatingLocation()
+        loc.manager.startUpdatingLocation()
     }
     
     func getCenterLocation() -> CLLocation {
-        let latitude = manager.location!.coordinate.latitude
-        let longitude = manager.location!.coordinate.longitude
+        let latitude = loc.manager.location!.coordinate.latitude
+        let longitude = loc.manager.location!.coordinate.longitude
         
         return CLLocation(latitude: latitude, longitude: longitude)
     }
@@ -98,7 +118,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         case .denied:
             break
         case .notDetermined:
-            manager.requestWhenInUseAuthorization()
+            loc.manager.requestWhenInUseAuthorization()
         case .restricted:
             // Alerte leur expliquant pourquoi c'est bloqué: controle parental ...
             break
@@ -107,13 +127,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
     }
     
+    
+    // MARK - Functions Weather and Forecast
     func updateWeather(){
         WeatherService.getWeather{ (sucess, weather) in
             if sucess, let weather = weather {
                 self.update(weather: weather)
+                print(weather.name)
             }
             else {
-                self.alert()
+                self.alert(text: "Weather Error")
             }
         }
         WeatherForecast.getForecast { (success, forecast) in
@@ -121,7 +144,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 self.updateForecast(forecast: forecast)
             }
             else {
-                self.alert()
+                self.alert(text: "Forecast Error")
             }
         }
     }
@@ -131,6 +154,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     private func updateForecast(forecast: Forecast){
+        checkLocationServices()
         setForecast(forecast: forecast)
     }
     private func update(weather: WeatherDescription) {
@@ -146,9 +170,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         tempMaxLabel.text = "Max: \(tempMax) C"
         tempMinLabel.text = "Min: \(tempMin) C"
         imageIcon(image: weatherImage, weather: weather)
-        
-       
-        
       }
     
     func setForecast(forecast: Forecast){
@@ -379,8 +400,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             }
     }
     
-    private func alert() {
-        let alertVC = UIAlertController(title: "Error", message: "Ooops, The weather download failed", preferredStyle: .alert)
+    private func alert(text: String) {
+        let alertVC = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertVC, animated: true, completion: nil)
         
@@ -389,18 +410,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
 
 extension ViewController  {
-    
-    func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
-        print("Rendering ....")
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
-            guard let location = locations.last else { return}
-            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            print("Ici \(center)")
-            
-     }
-    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorization()
     }

@@ -9,7 +9,7 @@
 import Foundation
 
 class StringFile{
-    let sun = "Un temps à hamac"
+    let sun = "Un temps à hamac 😎"
     let cloud = "Encore la tête dans les nuages !"
     let rain = "Il pleut, il mouille, c'est la fête à la grenouille"
     let fogBreton = "Horizon pas net, reste à la buvette"

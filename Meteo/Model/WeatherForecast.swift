@@ -9,16 +9,15 @@
 import Foundation
 import CoreLocation
 
-class WeatherForecast {
-    static var location = Location()
+class WeatherForecast: NSObject, CLLocationManagerDelegate {
+    static var manager = CLLocationManager()
+    static var locVC = ViewController()
 
-    private static let forecastUrl = URL(string:"https://api.openweathermap.org/data/2.5/forecast?q=Lorient&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
-          
         static func getForecast(callback: @escaping (Bool, Forecast?) -> Void) {
-            var request = URLRequest(url: forecastUrl)
+            var request = URLRequest(url: locVC.urlForecast())
             request.httpMethod = "POST"
             
-            let body = "method=getWeather&format=json"
+            let body = "method=getForecast&format=json"
             request.httpBody = body.data(using: .utf8)
             
             let session = URLSession(configuration: .default)

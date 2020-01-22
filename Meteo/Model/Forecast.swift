@@ -4,6 +4,8 @@
 //   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 
 import Foundation
+import UIKit
+import CoreLocation
 
 // MARK: - Forecast
 class Forecast: Codable {
