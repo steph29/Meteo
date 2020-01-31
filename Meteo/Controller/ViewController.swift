@@ -45,8 +45,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var treeHoursLabel: UILabel!
     @IBOutlet weak var sixHoursLabel: UILabel!
     @IBOutlet weak var nineHoursLabel: UILabel!
-    @IBOutlet weak var positLatLabel: UILabel!
-    @IBOutlet weak var positLongLabel: UILabel!
   
     
     // MARK - Variables
@@ -68,16 +66,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // MARK - Functions Location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
            guard let location = locations.last else { return}
-           let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            print("\(loc.manager.location!.coordinate.latitude), \(loc.manager.location!.coordinate.longitude)")
-            positLatLabel.text = String(loc.manager.location!.coordinate.latitude)
-            positLongLabel.text = String(loc.manager.location!.coordinate.longitude)
             updateWeather()
     }
      
     func urlForecast() -> URL{
-        let forecastUrl = URL(string:"https://api.openweathermap.org/data/2.5/forecast?lat=\("48")&lon=\(loc.manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
+        let forecastUrl = URL(string:"https://api.openweathermap.org/data/2.5/forecast?lat=\(loc.manager.location!.coordinate.latitude)&lon=\(loc.manager.location!.coordinate.longitude)&lang=fr&units=metric&APPID=3d0f03af752e96a61f63461350da3438")!
         return forecastUrl
+        
     }
   
     
@@ -133,7 +128,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         WeatherService.getWeather{ (sucess, weather) in
             if sucess, let weather = weather {
                 self.update(weather: weather)
-                print(weather.name)
             }
             else {
                 self.alert(text: "Weather Error")
@@ -150,7 +144,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
   
     @IBAction func tappedUpdateButton(_ sender: Any) {
-        updateWeather()
+        // TODO: add city via CityViewController -> segue
+        
     }
     
     private func updateForecast(forecast: Forecast){
